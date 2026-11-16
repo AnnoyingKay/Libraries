@@ -1,5 +1,5 @@
 /* Libraries service worker. Network first, falls back to the cached copy when offline. */
-const CACHE = 'libraries-v4';
+const CACHE = 'libraries-v5';
 const SHELL = ['./', 'index.html', 'manifest.webmanifest', 'icon-192.png', 'icon-512.png'];
 self.addEventListener('install', e => { e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).catch(() => {})); self.skipWaiting(); });
 self.addEventListener('activate', e => {

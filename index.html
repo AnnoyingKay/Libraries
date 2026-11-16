@@ -91,7 +91,30 @@
   .card.games .stat b { color:#a9b1ff; }
   .card.games .app { color:#7a86ff; }
 
-  @media (prefers-reduced-motion: reduce) { .card.vinyl .art svg .spin { animation:none; } .card, .panel { transition:none; } }
+
+  /* Books: an open book with pages that turn */
+  .card.books .art svg .page { transform-origin:85px 80px; transform-box:view-box; animation:turn 6.6s ease-in-out infinite; opacity:0; }
+  .card.books .art svg .p2 { animation-delay:2.2s; }
+  .card.books .art svg .p3 { animation-delay:4.4s; }
+  @keyframes turn {
+    0%   { transform:scaleX(1);  opacity:1; }
+    28%  { transform:scaleX(-1) skewY(-4deg); opacity:1; }
+    34%  { transform:scaleX(-1); opacity:0; }
+    100% { transform:scaleX(-1); opacity:0; }
+  }
+  /* Games: buttons get pressed in turn */
+  .card.games .art svg .btn { transform-box:fill-box; transform-origin:center; animation:press 4.8s ease-in-out infinite; }
+  .card.games .art svg .b1 { animation-delay:0s; }
+  .card.games .art svg .b2 { animation-delay:.6s; }
+  .card.games .art svg .b3 { animation-delay:1.2s; }
+  .card.games .art svg .b4 { animation-delay:1.8s; }
+  .card.games .art svg .dpad { animation-delay:2.6s; }
+  .card.games .art svg .st1 { animation-name:nudge; animation-delay:3.4s; }
+  .card.games .art svg .sel { animation-delay:4.2s; }
+  @keyframes press { 0%,10%,100% { transform:none; filter:none; } 3%,7% { transform:translateY(2.5px) scale(.8); filter:brightness(.75); } }
+  @keyframes nudge { 0%,14%,100% { transform:none; } 4%,10% { transform:translate(3px,-2px); } }
+
+  @media (prefers-reduced-motion: reduce) { .card.books .art svg .page { animation:none; opacity:0; } .card.games .art svg .btn { animation:none; } .card.vinyl .art svg .spin { animation:none; } .card, .panel { transition:none; } }
 </style>
 </head>
 <body>
@@ -118,18 +141,21 @@
           <span class="extra" id="x-books"></span>
           <span class="art" aria-hidden="true">
             <svg viewBox="0 0 170 140" xmlns="http://www.w3.org/2000/svg">
-              <ellipse cx="86" cy="130" rx="74" ry="7" fill="#000" opacity=".18"/>
-              <rect x="14" y="94" width="142" height="30" rx="6" fill="#d9a441"/>
-              <rect x="146" y="98" width="10" height="22" rx="2" fill="#f3e7db"/>
-              <rect x="34" y="94" width="5" height="30" fill="#b9852a"/><rect x="43" y="94" width="5" height="30" fill="#b9852a"/>
-              <rect x="30" y="62" width="122" height="30" rx="6" fill="#f3e7db"/>
-              <rect x="140" y="66" width="10" height="22" rx="2" fill="#e2d4bf"/>
-              <rect x="50" y="62" width="14" height="30" fill="#2f5d50" opacity=".85"/>
-              <rect x="70" y="72" width="40" height="5" rx="2.5" fill="#2f5d50" opacity=".55"/>
-              <rect x="22" y="32" width="112" height="28" rx="6" fill="#c4602f"/>
-              <rect x="122" y="36" width="10" height="20" rx="2" fill="#e9b793"/>
-              <rect x="40" y="32" width="5" height="28" fill="#f3e7db" opacity=".8"/><rect x="49" y="32" width="5" height="28" fill="#f3e7db" opacity=".8"/>
-              <path d="M104 32 v36 l7 -7 l7 7 v-36z" fill="#4a56c9"/>
+              <ellipse cx="85" cy="128" rx="74" ry="6" fill="#000" opacity=".18"/>
+              <path d="M10 44 L85 56 L160 44 V112 L85 124 L10 112z" fill="#c4602f"/>
+              <path d="M18 40 Q52 30 85 46 V116 Q52 100 18 108z" fill="#e8dcc7"/>
+              <path d="M152 40 Q118 30 85 46 V116 Q118 100 152 108z" fill="#f3e7db"/>
+              <g stroke="#2f5d50" stroke-width="3" stroke-linecap="round" opacity=".5">
+                <path d="M30 56 Q50 52 72 62"/><path d="M30 68 Q50 64 72 74"/><path d="M30 80 Q50 76 72 86"/><path d="M30 92 Q46 89 62 95"/>
+              </g>
+              <g stroke="#2f5d50" stroke-width="3" stroke-linecap="round" opacity=".35">
+                <path d="M98 62 Q120 52 140 56"/><path d="M98 74 Q120 64 140 68"/><path d="M98 86 Q120 76 140 80"/>
+              </g>
+              <g class="page p1"><path d="M85 46 Q118 30 152 40 V108 Q118 100 85 116z" fill="#fbf4ea" stroke="#d8c8ae" stroke-width="1.5"/><path d="M100 62 Q120 54 138 58 M100 74 Q120 66 138 70" stroke="#2f5d50" stroke-width="3" stroke-linecap="round" opacity=".3" fill="none"/></g>
+              <g class="page p2"><path d="M85 46 Q118 30 152 40 V108 Q118 100 85 116z" fill="#fbf4ea" stroke="#d8c8ae" stroke-width="1.5"/><path d="M100 62 Q120 54 138 58 M100 74 Q120 66 138 70" stroke="#2f5d50" stroke-width="3" stroke-linecap="round" opacity=".3" fill="none"/></g>
+              <g class="page p3"><path d="M85 46 Q118 30 152 40 V108 Q118 100 85 116z" fill="#fbf4ea" stroke="#d8c8ae" stroke-width="1.5"/><path d="M100 62 Q120 54 138 58 M100 74 Q120 66 138 70" stroke="#2f5d50" stroke-width="3" stroke-linecap="round" opacity=".3" fill="none"/></g>
+              <path d="M85 46 V116" stroke="#b9a98d" stroke-width="2"/>
+              <path d="M82 44 v34 l5 -5 l5 5 v-34z" fill="#4a56c9"/>
             </svg>
           </span>
         </button>
@@ -172,12 +198,14 @@
               <ellipse cx="90" cy="112" rx="70" ry="6" fill="#000" opacity=".25"/>
               <path d="M46 26 h88 a34 34 0 0 1 33 28 l8 34 a17 17 0 0 1 -29 15 l-14 -14 h-84 l-14 14 a17 17 0 0 1 -29 -15 l8 -34 a34 34 0 0 1 33 -28z" fill="#7a86ff"/>
               <path d="M46 26 h88 a34 34 0 0 1 33 28 l2 8 h-156 l2 -8 a34 34 0 0 1 33 -28z" fill="#a9b1ff" opacity=".55"/>
-              <rect x="38" y="48" width="30" height="10" rx="3" fill="#121650"/><rect x="48" y="38" width="10" height="30" rx="3" fill="#121650"/>
-              <circle cx="132" cy="44" r="7" fill="#ffd36e"/><circle cx="146" cy="58" r="7" fill="#ff7aa8"/>
-              <circle cx="118" cy="58" r="7" fill="#6ee7c8"/><circle cx="132" cy="72" r="7" fill="#f3e7db"/>
-              <circle cx="72" cy="76" r="10" fill="#121650"/><circle cx="72" cy="76" r="5.5" fill="#3a44c0"/>
+              <g class="btn dpad"><rect x="38" y="48" width="30" height="10" rx="3" fill="#121650"/><rect x="48" y="38" width="10" height="30" rx="3" fill="#121650"/></g>
+              <g class="btn b1"><circle cx="132" cy="44" r="7" fill="#ffd36e"/></g>
+              <g class="btn b2"><circle cx="146" cy="58" r="7" fill="#ff7aa8"/></g>
+              <g class="btn b3"><circle cx="132" cy="72" r="7" fill="#f3e7db"/></g>
+              <g class="btn b4"><circle cx="118" cy="58" r="7" fill="#6ee7c8"/></g>
+              <g class="btn st1"><circle cx="72" cy="76" r="10" fill="#121650"/><circle cx="72" cy="76" r="5.5" fill="#3a44c0"/></g>
               <circle cx="108" cy="76" r="10" fill="#121650"/><circle cx="108" cy="76" r="5.5" fill="#3a44c0"/>
-              <rect x="80" y="40" width="20" height="6" rx="3" fill="#121650" opacity=".7"/>
+              <g class="btn sel"><rect x="80" y="40" width="20" height="6" rx="3" fill="#121650" opacity=".7"/></g>
             </svg>
           </span>
         </button>
@@ -466,8 +494,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden && cu
 /* ---------- start ---------- */
 (function start() {
   let k = LIBS.findIndex(l => '#' + l.id === location.hash);
-  if (k < 0) { try { k = LIBS.findIndex(l => l.id === localStorage.getItem('libraries.last')); } catch (e) {} }
-  cur = k > -1 ? k : 0;
+  cur = k > -1 ? k : HOME;   /* Home is always the opening page; a #books style link still goes straight to that library */
   ensure(cur); paint(); place(0); render(); updateShelfCounts();
   const first = frames[cur];
   if (first) first.addEventListener('load', () => setTimeout(loadRest, 300), { once:true }); else setTimeout(loadRest, 300);
