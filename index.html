@@ -16,7 +16,7 @@
   :root { --bar:#2f5d50; }
   * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
   html, body { height:100%; margin:0; overflow:hidden; overscroll-behavior:none; background:var(--bar);
-    font:14px/1.2 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; transition:background .3s; }
+    font:14px/1.25 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; transition:background .3s; }
   #app { position:fixed; inset:0; display:flex; flex-direction:column; background:var(--bar); transition:background .3s; }
   #top { flex:none; height:env(safe-area-inset-top,0px); background:var(--bar); transition:background .3s; }
   #stage { position:relative; flex:1; min-height:0; overflow:hidden; }
@@ -29,16 +29,69 @@
   #bar button { flex:1; height:40px; border:0; background:none; color:inherit; font:inherit; font-weight:600;
     letter-spacing:.02em; opacity:.55; cursor:pointer; transition:opacity .2s; }
   #bar button[aria-selected="true"] { opacity:1; }
-  #ind { position:absolute; top:0; left:0; width:33.3333%; height:3px; background:#fff; border-radius:0 0 3px 3px;
+  #ind { position:absolute; top:0; left:0; width:25%; height:3px; background:#fff; border-radius:0 0 3px 3px;
     transform:translateX(calc(var(--p,0) * 100%)); }
 
   .arrow { display:none; position:absolute; top:50%; z-index:5; width:44px; height:44px; margin-top:-22px; border:0;
     border-radius:50%; background:rgba(0,0,0,.5); color:#fff; font-size:22px; line-height:1; cursor:pointer;
-    opacity:.45; transition:opacity .2s, transform .2s; }
+    opacity:.45; transition:opacity .2s; }
   .arrow:hover, .arrow:focus-visible { opacity:1; }
   #prev { left:10px; } #next { right:10px; }
-  .arrow[hidden] { display:none !important; }
   @media (hover:hover) and (pointer:fine) { .arrow { display:block; } }
+
+  /* ---------- Home ---------- */
+  #home { position:absolute; inset:0; overflow-y:auto; overflow-x:hidden; background:#f3e7db; color:#2b211b;
+    -webkit-overflow-scrolling:touch; padding:22px 16px 28px; }
+  #home .wrap { max-width:1040px; margin:0 auto; }
+  #home h1 { margin:2px 0 2px; font:700 26px/1.15 Georgia,"Times New Roman",serif; letter-spacing:.005em; }
+  #home .sub { margin:0 0 18px; color:#7d6657; font-size:13px; min-height:16px; }
+  #home .sub button { border:0; background:none; padding:0 0 0 6px; color:#b8582d; font:inherit; font-weight:600; cursor:pointer; text-decoration:underline; }
+  .cards { display:grid; gap:14px; grid-template-columns:1fr; }
+  @media (min-width:760px) { .cards { grid-template-columns:repeat(3,1fr); } }
+
+  .card { position:relative; display:block; width:100%; min-height:176px; padding:16px 16px 14px; border:0; border-radius:22px;
+    text-align:left; font:inherit; color:#fff; cursor:pointer; overflow:hidden; isolation:isolate;
+    box-shadow:0 1px 0 rgba(255,255,255,.12) inset, 0 8px 22px rgba(60,35,20,.18); transition:transform .18s, box-shadow .18s; }
+  .card:hover { transform:translateY(-2px); box-shadow:0 1px 0 rgba(255,255,255,.12) inset, 0 12px 26px rgba(60,35,20,.24); }
+  .card:active { transform:scale(.985); }
+  .card:focus-visible { outline:3px solid #b8582d; outline-offset:3px; }
+  .card .art { position:absolute; right:10px; bottom:6px; width:42%; max-width:190px; z-index:-1; pointer-events:none; }
+  .card .art svg { display:block; width:100%; height:auto; }
+  .card .app { display:block; font-size:11px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; opacity:.75; }
+  .card .name { display:block; margin:2px 0 14px; font:700 24px/1.1 Georgia,"Times New Roman",serif; }
+  .stats { display:flex; gap:22px; }
+  .stat { display:block; }
+  .stat b { display:block; font:800 38px/1 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif; letter-spacing:-.01em; font-variant-numeric:tabular-nums; }
+  .stat i { display:block; margin-top:5px; font-style:normal; font-size:12px; font-weight:600; opacity:.8; }
+  .extra { display:block; margin-top:12px; font-size:12px; opacity:.75; min-height:15px; }
+  @media (min-width:760px) { .card { min-height:230px; } .card .art { width:48%; } .stat b { font-size:34px; } }
+
+  /* Books: library green, paper lines, cream and amber spines */
+  .card.books { background:
+      repeating-linear-gradient(0deg, rgba(255,255,255,.045) 0 1px, transparent 1px 7px),
+      linear-gradient(140deg,#35705f 0%,#2f5d50 45%,#234a40 100%); }
+  .card.books .stat b { color:#f3e7db; }
+  .card.books .app { color:#e9cf94; }
+
+  /* Vinyl: dark with warm glow and a slowly turning record */
+  .card.vinyl { background:
+      radial-gradient(120% 90% at 100% 100%, rgba(217,164,65,.20) 0%, rgba(217,164,65,0) 55%),
+      linear-gradient(150deg,#26201b 0%,#15120f 70%); }
+  .card.vinyl .stat b { color:#f1c36a; }
+  .card.vinyl .app { color:#d9a441; }
+  .card.vinyl .art { right:-26px; bottom:-30px; width:56%; max-width:230px; }
+  .card.vinyl .art svg .spin { transform-origin:80px 80px; animation:spin 26s linear infinite; }
+  @keyframes spin { to { transform:rotate(360deg); } }
+
+  /* Games: night indigo, pixel grid, bright arcade accents */
+  .card.games { background:
+      linear-gradient(rgba(122,134,255,.10) 1px, transparent 1px) 0 0/22px 22px,
+      linear-gradient(90deg, rgba(122,134,255,.10) 1px, transparent 1px) 0 0/22px 22px,
+      linear-gradient(145deg,#1d2370 0%,#121650 55%,#0d1030 100%); }
+  .card.games .stat b { color:#a9b1ff; }
+  .card.games .app { color:#7a86ff; }
+
+  @media (prefers-reduced-motion: reduce) { .card.vinyl .art svg .spin { animation:none; } .card, .panel { transition:none; } }
 </style>
 </head>
 <body>
@@ -48,36 +101,140 @@
   <nav id="bar" role="tablist" aria-label="Libraries"><div id="ind"></div></nav>
 </div>
 
+<template id="home-tpl">
+  <div id="home">
+    <div class="wrap">
+      <h1>Libraries</h1>
+      <p class="sub"><span id="hstat"></span><button type="button" id="hrefresh">Refresh</button></p>
+      <div class="cards">
+
+        <button class="card books" type="button" data-go="books" id="c-books">
+          <span class="app">Shelf</span>
+          <span class="name">Books</span>
+          <span class="stats">
+            <span class="stat"><b data-n="books.physical">&ndash;</b><i>Physical</i></span>
+            <span class="stat"><b data-n="books.ebook">&ndash;</b><i>Ebooks</i></span>
+          </span>
+          <span class="extra" id="x-books"></span>
+          <span class="art" aria-hidden="true">
+            <svg viewBox="0 0 170 140" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="86" cy="130" rx="74" ry="7" fill="#000" opacity=".18"/>
+              <rect x="14" y="94" width="142" height="30" rx="6" fill="#d9a441"/>
+              <rect x="146" y="98" width="10" height="22" rx="2" fill="#f3e7db"/>
+              <rect x="34" y="94" width="5" height="30" fill="#b9852a"/><rect x="43" y="94" width="5" height="30" fill="#b9852a"/>
+              <rect x="30" y="62" width="122" height="30" rx="6" fill="#f3e7db"/>
+              <rect x="140" y="66" width="10" height="22" rx="2" fill="#e2d4bf"/>
+              <rect x="50" y="62" width="14" height="30" fill="#2f5d50" opacity=".85"/>
+              <rect x="70" y="72" width="40" height="5" rx="2.5" fill="#2f5d50" opacity=".55"/>
+              <rect x="22" y="32" width="112" height="28" rx="6" fill="#c4602f"/>
+              <rect x="122" y="36" width="10" height="20" rx="2" fill="#e9b793"/>
+              <rect x="40" y="32" width="5" height="28" fill="#f3e7db" opacity=".8"/><rect x="49" y="32" width="5" height="28" fill="#f3e7db" opacity=".8"/>
+              <path d="M104 32 v36 l7 -7 l7 7 v-36z" fill="#4a56c9"/>
+            </svg>
+          </span>
+        </button>
+
+        <button class="card vinyl" type="button" data-go="vinyl" id="c-vinyl">
+          <span class="app">Musicbox</span>
+          <span class="name">Vinyl</span>
+          <span class="stats">
+            <span class="stat"><b data-n="vinyl.total">&ndash;</b><i>Registered</i></span>
+          </span>
+          <span class="extra" id="x-vinyl"></span>
+          <span class="art" aria-hidden="true">
+            <svg viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg">
+              <g class="spin">
+                <circle cx="80" cy="80" r="78" fill="#0b0908"/>
+                <circle cx="80" cy="80" r="68" fill="none" stroke="#2f2923" stroke-width="2"/>
+                <circle cx="80" cy="80" r="58" fill="none" stroke="#2f2923" stroke-width="2"/>
+                <circle cx="80" cy="80" r="48" fill="none" stroke="#2f2923" stroke-width="2"/>
+                <path d="M80 12 A68 68 0 0 1 148 80" fill="none" stroke="#5a4f44" stroke-width="3" stroke-linecap="round" opacity=".7"/>
+                <path d="M80 148 A68 68 0 0 1 12 80" fill="none" stroke="#5a4f44" stroke-width="3" stroke-linecap="round" opacity=".5"/>
+                <circle cx="80" cy="80" r="27" fill="#d9a441"/>
+                <circle cx="80" cy="80" r="21" fill="none" stroke="#b9852a" stroke-width="1.5"/>
+                <path d="M64 74 q16 -14 32 0" fill="none" stroke="#7a4f12" stroke-width="2.5" stroke-linecap="round"/>
+                <circle cx="80" cy="80" r="4.5" fill="#15120f"/>
+              </g>
+            </svg>
+          </span>
+        </button>
+
+        <button class="card games" type="button" data-go="games" id="c-games">
+          <span class="app">SavePoint</span>
+          <span class="name">Games</span>
+          <span class="stats">
+            <span class="stat"><b data-n="games.physical">&ndash;</b><i>Physical</i></span>
+            <span class="stat"><b data-n="games.digital">&ndash;</b><i>Digital</i></span>
+          </span>
+          <span class="extra" id="x-games"></span>
+          <span class="art" aria-hidden="true">
+            <svg viewBox="0 0 180 120" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="90" cy="112" rx="70" ry="6" fill="#000" opacity=".25"/>
+              <path d="M46 26 h88 a34 34 0 0 1 33 28 l8 34 a17 17 0 0 1 -29 15 l-14 -14 h-84 l-14 14 a17 17 0 0 1 -29 -15 l8 -34 a34 34 0 0 1 33 -28z" fill="#7a86ff"/>
+              <path d="M46 26 h88 a34 34 0 0 1 33 28 l2 8 h-156 l2 -8 a34 34 0 0 1 33 -28z" fill="#a9b1ff" opacity=".55"/>
+              <rect x="38" y="48" width="30" height="10" rx="3" fill="#121650"/><rect x="48" y="38" width="10" height="30" rx="3" fill="#121650"/>
+              <circle cx="132" cy="44" r="7" fill="#ffd36e"/><circle cx="146" cy="58" r="7" fill="#ff7aa8"/>
+              <circle cx="118" cy="58" r="7" fill="#6ee7c8"/><circle cx="132" cy="72" r="7" fill="#f3e7db"/>
+              <circle cx="72" cy="76" r="10" fill="#121650"/><circle cx="72" cy="76" r="5.5" fill="#3a44c0"/>
+              <circle cx="108" cy="76" r="10" fill="#121650"/><circle cx="108" cy="76" r="5.5" fill="#3a44c0"/>
+              <rect x="80" y="40" width="20" height="6" rx="3" fill="#121650" opacity=".7"/>
+            </svg>
+          </span>
+        </button>
+
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
-/* Libraries: one page that holds Shelf, Musicbox and SavePoint.
+/* Libraries: one page that holds Shelf, Musicbox and SavePoint, plus a Home page of counts.
    Change the paths or names here if a repository is ever renamed. */
 const LIBS = [
-  { id:'books',  name:'Books', src:'../Shelf/',     color:'#2f5d50' },
-  { id:'vinyl',  name:'Vinyl', src:'../Musicbox/',  color:'#15120f' },
-  { id:'games',  name:'Games', src:'../SavePoint/', color:'#0d1030' }
+  { id:'books', name:'Books', src:'../Shelf/',     color:'#2f5d50' },
+  { id:'vinyl', name:'Vinyl', src:'../Musicbox/',  color:'#15120f' },
+  { id:'games', name:'Games', src:'../SavePoint/', color:'#0d1030' },
+  { id:'home',  name:'Home',  home:true,           color:'#b8582d' }
 ];
+const FIREBASE_CONFIG = {
+    apiKey: "AIzaSyCgVHwUEbDsp_DiyAWbIaHW7b5LS7MRwNM",
+    authDomain: "shelf-b5282.firebaseapp.com",
+    projectId: "shelf-b5282",
+    storageBucket: "shelf-b5282.firebasestorage.app",
+    messagingSenderId: "137353564152",
+    appId: "1:137353564152:web:5e78fb7a5d32cc5342d00d"
+  };
+const FIREBASE_URL = 'https://www.gstatic.com/firebasejs/10.14.1/';
 
 const $ = s => document.querySelector(s);
-const stage = $('#stage'), bar = $('#bar'), appEl = $('#app');
+const stage = $('#stage'), bar = $('#bar');
 const N = LIBS.length;
-let cur = 0, animating = false;
+const HOME = LIBS.findIndex(l => l.home);
+let cur = 0;
 
 /* ---------- build ---------- */
 const panels = [], frames = [], tabs = [];
 LIBS.forEach((lib, i) => {
   const p = document.createElement('div');
   p.className = 'panel'; p.style.background = lib.color;
-  const f = document.createElement('iframe');
-  f.title = lib.name; f.setAttribute('allow', 'camera; clipboard-write; fullscreen');
-  p.appendChild(f); stage.appendChild(p);
-  panels.push(p); frames.push(f);
-  f.addEventListener('load', () => { if (f.getAttribute('src')) attach(f); });
+  let f = null;
+  if (lib.home) {
+    p.style.background = '#f3e7db';
+    p.appendChild(document.getElementById('home-tpl').content.firstElementChild);
+  } else {
+    f = document.createElement('iframe');
+    f.title = lib.name; f.setAttribute('allow', 'camera; clipboard-write; fullscreen');
+    p.appendChild(f);
+    f.addEventListener('load', () => { if (f.getAttribute('src')) attach(f); });
+  }
+  stage.appendChild(p); panels.push(p); frames.push(f);
 
   const b = document.createElement('button');
   b.type = 'button'; b.role = 'tab'; b.textContent = lib.name;
   b.addEventListener('click', () => go(i));
   bar.insertBefore(b, $('#ind')); tabs.push(b);
 });
+$('#ind').style.width = (100 / N) + '%';
 const prevBtn = Object.assign(document.createElement('button'), { id:'prev', className:'arrow', type:'button', textContent:'‹' });
 const nextBtn = Object.assign(document.createElement('button'), { id:'next', className:'arrow', type:'button', textContent:'›' });
 prevBtn.addEventListener('click', () => go(cur - 1));
@@ -86,7 +243,7 @@ stage.append(prevBtn, nextBtn);
 
 /* ---------- layout ---------- */
 function width() { return stage.clientWidth || window.innerWidth; }
-/* Position of panel i relative to the current one, going round in a circle: -1 left, 0 here, 1 right. */
+/* Position of panel i relative to the current one, going round in a circle. */
 function dOf(i, c) { const h = Math.floor(N / 2); return (((i - c + h) % N) + N) % N - h; }
 function place(offset) {
   const W = width();
@@ -107,26 +264,28 @@ function paint() {
 function ensure(i) { const f = frames[i]; if (f && !f.getAttribute('src')) f.setAttribute('src', LIBS[i].src); }
 function loadRest() {
   const order = []; for (let d = 1; d < N; d++) { order.push(cur + d, cur - d); }
-  order.filter(i => i >= 0 && i < N).forEach((i, k) => setTimeout(() => ensure(i), 400 * k));
+  const seen = new Set();
+  order.map(i => ((i % N) + N) % N).filter(i => i !== cur && !seen.has(i) && seen.add(i)).forEach((i, k) => setTimeout(() => ensure(i), 400 * k));
 }
 
 /* ---------- navigation ---------- */
 function go(i, opts) {
   opts = opts || {};
-  i = ((i % N) + N) % N;                       /* full circle: after the last comes the first */
+  i = ((i % N) + N) % N;                       /* full circle */
   const changed = i !== cur;
   const before = panels.map((p, k) => dOf(k, cur));
   cur = i; ensure(cur); paint();
   panels.forEach(p => p.classList.remove('drag'));
-  panels.forEach((p, k) => { if (Math.abs(dOf(k, cur) - before[k]) > 1) p.classList.add('drag'); });   /* the panel going round the back must not slide across the screen */
+  panels.forEach((p, k) => { if (Math.abs(dOf(k, cur) - before[k]) > 1) p.classList.add('drag'); });   /* a panel going round the back must not slide across the screen */
   place(0);
   void stage.offsetWidth;
   panels.forEach(p => p.classList.remove('drag'));
   if (changed && !opts.silent) {
     try { history.replaceState(null, '', '#' + LIBS[cur].id); } catch (e) {}
     try { localStorage.setItem('libraries.last', LIBS[cur].id); } catch (e) {}
-    setTimeout(() => { try { frames[cur].contentWindow.focus(); } catch (e) {} }, 340);
+    setTimeout(() => { try { if (frames[cur]) frames[cur].contentWindow.focus(); } catch (e) {} }, 340);
   }
+  if (cur === HOME) { updateShelfCounts(); refreshCounts(false); }
 }
 function key(e) {
   if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
@@ -141,8 +300,7 @@ window.addEventListener('resize', () => place(0));
 window.addEventListener('hashchange', () => { const k = LIBS.findIndex(l => '#' + l.id === location.hash); if (k > -1 && k !== cur) go(k, { silent:true }); });
 
 /* ---------- swipe and keys inside the apps ----------
-   The apps live on the same origin, so this page can listen to their touches directly.
-   Nothing needs to be added to the three apps. */
+   The apps live on the same origin, so this page can listen to their touches directly. */
 function inHorizontalScroller(el, win) {
   for (; el && el.nodeType === 1; el = el.parentElement) {
     const cs = win.getComputedStyle(el);
@@ -154,17 +312,18 @@ function attach(frame) {
   let doc, win;
   try { win = frame.contentWindow; doc = frame.contentDocument; void doc.body; } catch (e) { return; }
   if (!doc || !win) return;
-  const idx = frames.indexOf(frame);
+  attachDoc(doc, win, frames.indexOf(frame), true);
+}
+function attachDoc(doc, win, idx, withKeys) {
   let t = null;
-
-  doc.addEventListener('keydown', key);
+  if (withKeys) doc.addEventListener('keydown', key);
 
   doc.addEventListener('touchstart', e => {
     t = null;
     if (idx !== cur || e.touches.length !== 1) return;
     const p = e.touches[0], tg = e.target;
     if (p.clientX < 24 || p.clientX > win.innerWidth - 24) return;                       /* leave the browser's own edge gestures alone */
-    if (tg.closest && tg.closest('input[type=range],textarea,[contenteditable="true"]')) return;   /* sliders and text areas keep their own drags */
+    if (tg.closest && tg.closest('input[type=range],textarea,[contenteditable="true"]')) return;
     t = { x:p.screenX, y:p.screenY, time:Date.now(), mode:'pending', target:tg, dx:0 };
   }, { passive:true });
 
@@ -196,15 +355,124 @@ function attach(frame) {
     if (far || quick) go(cur + (s.dx < 0 ? 1 : -1)); else go(cur);
   }, { passive:true });
 }
+attachDoc(document, window, HOME, false);   /* swipes on the Home page */
+
+/* ---------- Home: counts ----------
+   Books come from Shelf's own saved data on this device (same address, so this page can read it).
+   Vinyl and Games are counted in Firebase with small count queries; nothing is downloaded.
+   The last counts are kept so the page still shows numbers offline. */
+const CACHE_KEY = 'libraries.counts';
+let counts = { books:{}, vinyl:{}, games:{} }, meta = { at:0, offline:false, signedOut:false };
+try { const c = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null'); if (c && c.counts) { counts = c.counts; meta.at = c.at || 0; } } catch (e) {}
+const fmtN = n => (n == null ? '–' : Number(n).toLocaleString('en-IE'));
+const reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+function setNum(el, v) {
+  const to = v == null ? null : +v, from = el._v;
+  el._v = to;
+  if (to == null || reduce || from === to || from == null) { el.textContent = fmtN(to); return; }
+  const t0 = performance.now(), d = 450;
+  (function step(t) { const k = Math.min(1, (t - t0) / d); el.textContent = fmtN(Math.round(from + (to - from) * (1 - Math.pow(1 - k, 3)))); if (k < 1 && el._v === to) requestAnimationFrame(step); })(t0);
+}
+function render() {
+  document.querySelectorAll('#home [data-n]').forEach(el => { const [a, b] = el.dataset.n.split('.'); setNum(el, (counts[a] || {})[b]); });
+  const b = counts.books || {};
+  $('#x-books').textContent = b.audio ? '+ ' + fmtN(b.audio) + ' audiobook' + (b.audio === 1 ? '' : 's') : '';
+  const g = counts.games || {};
+  $('#x-games').textContent = (g.total != null) ? fmtN(g.total) + ' game' + (g.total === 1 ? '' : 's') + ' in total' : '';
+  const v = counts.vinyl || {};
+  $('#x-vinyl').textContent = '';
+  const hs = $('#hstat'), when = meta.at ? new Date(meta.at).toLocaleTimeString('en-IE', { hour:'2-digit', minute:'2-digit' }) : '';
+  hs.textContent = meta.signedOut ? 'Sign in to any library to see Vinyl and Games counts.'
+    : meta.offline ? (when ? 'Offline. Showing counts from ' + when + '.' : 'Offline.')
+    : (when ? 'Updated ' + when : 'Counting…');
+  const ab = (id, text) => { const c = $('#c-' + id); if (c) c.setAttribute('aria-label', text); };
+  ab('books', 'Books: ' + fmtN(b.physical) + ' physical, ' + fmtN(b.ebook) + ' ebooks. Open Shelf');
+  ab('vinyl', 'Vinyl: ' + fmtN(v.total) + ' registered. Open Musicbox');
+  ab('games', 'Games: ' + fmtN(g.physical) + ' physical, ' + fmtN(g.digital) + ' digital. Open SavePoint');
+}
+function persist() { try { localStorage.setItem(CACHE_KEY, JSON.stringify({ counts, at:meta.at })); } catch (e) {} }
+
+/* Books: Ebook is an ebook, Audiobook is counted on its own line, everything else is a physical book.
+   Re-read entries are not counted again. */
+function updateShelfCounts() {
+  try {
+    const raw = localStorage.getItem('shelf.v1'); if (!raw) { render(); return; }
+    const books = (JSON.parse(raw).books || []).filter(b => !b.rep);
+    const f = b => String(b.format || '').toLowerCase();
+    counts.books = {
+      physical: books.filter(b => f(b) !== 'ebook' && f(b) !== 'audiobook').length,
+      ebook:    books.filter(b => f(b) === 'ebook').length,
+      audio:    books.filter(b => f(b) === 'audiobook').length
+    };
+    persist(); render();
+  } catch (e) { render(); }
+}
+window.addEventListener('storage', e => { if (e.key === 'shelf.v1') { clearTimeout(updateShelfCounts._t); updateShelfCounts._t = setTimeout(updateShelfCounts, 600); } });
+
+let fbP = null, lastFetch = 0, busy = false;
+function firebase() {
+  if (fbP) return fbP;
+  fbP = Promise.all([import(FIREBASE_URL + 'firebase-app.js'), import(FIREBASE_URL + 'firebase-auth.js'), import(FIREBASE_URL + 'firebase-firestore.js')])
+    .then(([A, Au, F]) => { const app = A.initializeApp(FIREBASE_CONFIG); return { Au, F, auth:Au.getAuth(app), db:F.getFirestore(app) }; })
+    .catch(e => { fbP = null; throw e; });
+  return fbP;
+}
+function whenAuth(fb) {
+  return new Promise(res => { const off = fb.Au.onAuthStateChanged(fb.auth, u => { try { off(); } catch (e) {} res(u); }); });
+}
+async function countOf(fb, name, field, value) {
+  let q = fb.F.collection(fb.db, name);
+  if (field) q = fb.F.query(q, fb.F.where(field, '==', value));
+  const snap = await fb.F.getCountFromServer(q);
+  return snap.data().count;
+}
+async function refreshCounts(force) {
+  if (busy) return;
+  if (!force && Date.now() - lastFetch < 20000) return;
+  busy = true; lastFetch = Date.now();
+  try {
+    let fb;
+    try { fb = await firebase(); } catch (e) { meta.offline = true; render(); return; }
+    const user = await Promise.race([whenAuth(fb), new Promise(r => setTimeout(() => r('timeout'), 8000))]);
+    if (user === 'timeout') { meta.offline = true; render(); return; }
+    if (!user) { meta.signedOut = true; meta.offline = false; render(); return; }
+    meta.signedOut = false;
+    const [vt, gt, gp, gd] = await Promise.allSettled([
+      countOf(fb, 'vinyl'), countOf(fb, 'games'), countOf(fb, 'games', 'format', 'physical'), countOf(fb, 'games', 'format', 'digital')
+    ]);
+    const ok = r => r.status === 'fulfilled';
+    if (ok(vt)) counts.vinyl = { total:vt.value };
+    if (ok(gt)) {
+      const phys = ok(gp) ? gp.value : null, dig = ok(gd) ? gd.value : null;
+      /* Until SavePoint stores a format on its games, the split stays blank instead of showing zeros. */
+      const split = (phys || 0) + (dig || 0) > 0;
+      counts.games = { total:gt.value, physical:split ? phys : null, digital:split ? dig : null };
+    }
+    const anyOk = ok(vt) || ok(gt);
+    meta.offline = !anyOk;
+    if (anyOk) { meta.at = Date.now(); persist(); }
+    render();
+  } finally { busy = false; }
+}
+document.addEventListener('click', e => {
+  const c = e.target.closest && e.target.closest('#home [data-go]');
+  if (c) { const k = LIBS.findIndex(l => l.id === c.dataset.go); if (k > -1) go(k); return; }
+  if (e.target && e.target.id === 'hrefresh') { updateShelfCounts(); refreshCounts(true); }
+});
+window.addEventListener('online', () => { meta.offline = false; refreshCounts(true); });
+document.addEventListener('visibilitychange', () => { if (!document.hidden && cur === HOME) { updateShelfCounts(); refreshCounts(false); } });
 
 /* ---------- start ---------- */
 (function start() {
   let k = LIBS.findIndex(l => '#' + l.id === location.hash);
   if (k < 0) { try { k = LIBS.findIndex(l => l.id === localStorage.getItem('libraries.last')); } catch (e) {} }
   cur = k > -1 ? k : 0;
-  ensure(cur); paint(); place(0);
-  frames[cur].addEventListener('load', () => setTimeout(loadRest, 300), { once:true });
+  ensure(cur); paint(); place(0); render(); updateShelfCounts();
+  const first = frames[cur];
+  if (first) first.addEventListener('load', () => setTimeout(loadRest, 300), { once:true }); else setTimeout(loadRest, 300);
   setTimeout(loadRest, 4000);   /* in case the first app is slow to report that it has loaded */
+  setTimeout(() => refreshCounts(true), cur === HOME ? 200 : 2500);
 })();
 
 if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
