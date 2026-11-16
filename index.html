@@ -86,9 +86,11 @@ stage.append(prevBtn, nextBtn);
 
 /* ---------- layout ---------- */
 function width() { return stage.clientWidth || window.innerWidth; }
+/* Position of panel i relative to the current one, going round in a circle: -1 left, 0 here, 1 right. */
+function dOf(i, c) { const h = Math.floor(N / 2); return (((i - c + h) % N) + N) % N - h; }
 function place(offset) {
   const W = width();
-  panels.forEach((p, i) => { p.style.transform = 'translate3d(' + ((i - cur) * W + offset) + 'px,0,0)'; });
+  panels.forEach((p, i) => { p.style.transform = 'translate3d(' + (dOf(i, cur) * W + offset) + 'px,0,0)'; });
   bar.style.setProperty('--p', String(Math.min(N - 1, Math.max(0, cur - offset / W))));
 }
 function paint() {
@@ -97,8 +99,7 @@ function paint() {
   $('#tc').setAttribute('content', c);
   tabs.forEach((b, i) => b.setAttribute('aria-selected', i === cur ? 'true' : 'false'));
   panels.forEach((p, i) => { p.inert = i !== cur; p.setAttribute('aria-hidden', i === cur ? 'false' : 'true'); });
-  prevBtn.hidden = cur === 0; nextBtn.hidden = cur === N - 1;
-  prevBtn.title = cur > 0 ? LIBS[cur - 1].name : ''; nextBtn.title = cur < N - 1 ? LIBS[cur + 1].name : '';
+  prevBtn.title = LIBS[(cur - 1 + N) % N].name; nextBtn.title = LIBS[(cur + 1) % N].name;
   prevBtn.setAttribute('aria-label', 'Previous library'); nextBtn.setAttribute('aria-label', 'Next library');
 }
 
@@ -112,20 +113,20 @@ function loadRest() {
 /* ---------- navigation ---------- */
 function go(i, opts) {
   opts = opts || {};
-  if (i < 0 || i > N - 1) { nudge(i < 0 ? 1 : -1); return; }
+  i = ((i % N) + N) % N;                       /* full circle: after the last comes the first */
   const changed = i !== cur;
+  const before = panels.map((p, k) => dOf(k, cur));
   cur = i; ensure(cur); paint();
   panels.forEach(p => p.classList.remove('drag'));
+  panels.forEach((p, k) => { if (Math.abs(dOf(k, cur) - before[k]) > 1) p.classList.add('drag'); });   /* the panel going round the back must not slide across the screen */
   place(0);
+  void stage.offsetWidth;
+  panels.forEach(p => p.classList.remove('drag'));
   if (changed && !opts.silent) {
     try { history.replaceState(null, '', '#' + LIBS[cur].id); } catch (e) {}
     try { localStorage.setItem('libraries.last', LIBS[cur].id); } catch (e) {}
     setTimeout(() => { try { frames[cur].contentWindow.focus(); } catch (e) {} }, 340);
   }
-}
-function nudge(dir) {   /* small bounce when there is nothing further that way */
-  place(dir * 28);
-  setTimeout(() => place(0), 140);
 }
 function key(e) {
   if (e.defaultPrevented || e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
@@ -180,8 +181,7 @@ function attach(frame) {
     if (t.mode === 'h') {
       if (e.cancelable) e.preventDefault();
       t.dx = dx;
-      const atEdge = (dx > 0 && cur === 0) || (dx < 0 && cur === N - 1);
-      place(atEdge ? dx * 0.3 : dx);
+      place(dx);
     }
   }, { passive:false });
 

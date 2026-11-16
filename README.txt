@@ -1,6 +1,6 @@
-LIBRARIES v1
+LIBRARIES v2
 
-One page that holds Shelf, Musicbox and SavePoint. Swipe left or right on a phone or tablet, use the left and right arrow keys on a computer, or tap the Books, Vinyl and Games tabs along the bottom. On a computer there are also arrow buttons at the sides.
+One page that holds Shelf, Musicbox and SavePoint. The libraries go round in a circle: after Games comes Books again, and Books back to Games. Swipe left or right on a phone or tablet, use the left and right arrow keys on a computer, or tap the Books, Vinyl and Games tabs along the bottom. On a computer there are also arrow buttons at the sides.
 
 Nothing needs to change in the Shelf, Musicbox or SavePoint repositories.
 
