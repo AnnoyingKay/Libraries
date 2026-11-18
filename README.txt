@@ -1,6 +1,6 @@
-LIBRARIES v5
+LIBRARIES v6
 
-One page that holds Shelf, Musicbox and SavePoint. The libraries go round in a circle: after Games comes Books again, and Books back to Games. Swipe left or right on a phone or tablet, use the left and right arrow keys on a computer, or tap the Books, Vinyl, Games and Home tabs along the bottom. On a computer there are also arrow buttons at the sides.
+One page that holds Shelf, Musicbox and SavePoint. The libraries go round in a circle: after Games comes Home again, and Home back to Games. Swipe left or right on a phone or tablet, use the left and right arrow keys on a computer, or tap the Home, Books, Vinyl and Games tabs along the bottom. On a computer there are also arrow buttons at the sides.
 
 Nothing needs to change in the Shelf, Musicbox or SavePoint repositories.
 
@@ -20,7 +20,7 @@ If a repository is ever renamed, change the LIBS list at the top of the script i
 
 Home page (new in v4)
 
-The fourth page (the one the app opens on) shows one card per library with item counts. Books: physical books and ebooks (audiobooks on a small extra line). Vinyl: records in the collection (wishlist not counted). Games: physical and digital.
+The first page (the one the app always opens on) shows one card per library with item counts. Books: physical books and ebooks (audiobooks on a small extra line). Vinyl: records in the collection (wishlist not counted). Games: physical and digital.
 Books come from the data already on the device. Vinyl and Games are counted from Firebase when you are signed in, then kept for offline use. Tap Refresh to update, or tap a card to open that library.
 Games physical and digital show a dash until SavePoint stores a field called format on each game, with the exact lowercase values physical or digital. The total still shows.
 No change to the Firestore rules is needed.
